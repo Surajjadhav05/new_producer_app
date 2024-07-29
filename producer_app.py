@@ -5,6 +5,7 @@ import json
 from kafka import KafkaProducer
 from main import load_lottiefile,generate_random_alphanumeric_string,setup_tg_connection
 import json
+import time 
 
 lottie_file = "Animation-1716966760564.json"
 lottie_animation = load_lottiefile(lottie_file)
@@ -66,10 +67,10 @@ if connection==1:
         location=st.text_input(label="Location from where transaction initiated!")
         cardnumber=int(st.number_input(label="Enter card number!"))
         amount=st.number_input(label="Transaction Amount!")
+        transID=st.text_input(label="Provide transaction ID!")
         if len(location)>0:
             merchant_lat=float(location.split(",")[0])
             merchant_long=float(location.split(",")[1])
-            transID=generate_random_alphanumeric_string(25)
             fraud=-2
             data={"cc_num":cardnumber,"trans_num":transID,"category":category,"amt":amount,"merchant":merchant,"merch_lat":merchant_lat,
                   "merch_long":merchant_long,"transaction_datetime":transaction_datetime,"merch_loc_id":location,"is_fraud":fraud}
@@ -83,21 +84,23 @@ if connection==1:
             with st_lottie_spinner(lottie_animation, height=200, key=f"loading_animation_x1"):
                 placeholder_loading = st.empty()
                 Producer.send("creditcardfraud", value=df.to_dict())
+                
+                time.sleep(6)
                 response=conn.runInstalledQuery("get_ml_prediction",params={"transactionID":transID})[0]["prediction"]
             
                 placeholder_loading.text("Transaction in progress, please wait...")
                 while response != 0 and response != 1:
                     response=conn.runInstalledQuery("get_ml_prediction",params={"transactionID":transID})[0]["prediction"]
                     
-            if response ==1:
-                placeholder_loading.title("Transaction Declined!")
-        
-            elif response==0:
-                placeholder_loading.title("Transaction Approved!")
-                st.write("Thank you for shopping with us!")
+                if response ==1:
+                    placeholder_loading.title("Transaction Declined!")
+            
+                elif response==0:
+                    placeholder_loading.title("Transaction Approved!")
+                    st.write("Thank you for shopping with us!")
             
         else:
-            st.write("Please enter valid card details!")
+            st.write("Please enter valid details!")
     
     
         
