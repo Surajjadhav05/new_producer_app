@@ -52,7 +52,11 @@ try:
     connection=1
 except:
     st.write("Unable to connect kafka broker!")
-    
+
+if st.sidebar.button("Clear cache"):
+    st.cache_resource.clear()
+    st.experimental_rerun()
+       
 df=pd.DataFrame()
 if connection==1:
     try:
