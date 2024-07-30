@@ -13,6 +13,7 @@ lottie_animation = load_lottiefile(lottie_file)
 with st.sidebar:
     st.image("NVlogo.png",width=150)
     st.header("Novigo Solutions")
+    st.header("Credit Card Fraud - Data Producer")
     
 
 if "logged_in" not in st.session_state:
@@ -32,7 +33,7 @@ else:
         login()
 
 if not st.session_state.logged_in:
-    st.title("Please log in to access the application.")
+    st.title("Please click on login to access the application.")
     st.stop()
 
 @st.cache_resource
@@ -61,13 +62,14 @@ if st.sidebar.button("Clear cache"):
 df=pd.DataFrame()
 if connection==1:
     try:
-        merchant=st.text_input(label="Merchant Name towards payment initiated!")
-        category=st.text_input(label="Category of product bought!")
-        transaction_datetime=st.text_input(label="Transaction date and time!")
-        location=st.text_input(label="Location from where transaction initiated!")
+        merchant=st.text_input(label="Enter Merchant Name.")
+        category=st.text_input(label="Enter Product Category.")
         cardnumber=int(st.number_input(label="Enter card number!"))
-        amount=st.number_input(label="Transaction Amount!")
-        transID=st.text_input(label="Provide transaction ID!")
+        transID=st.text_input(label="Enter Transaction ID!")
+        transaction_datetime=st.text_input(label=" Enter Transaction date and time.")
+        location=st.text_input(label="Enter latitude and longitude")
+        amount=st.number_input(label="Enter Transaction Amount!")
+        
         if len(location)>0:
             merchant_lat=float(location.split(",")[0])
             merchant_long=float(location.split(",")[1])
