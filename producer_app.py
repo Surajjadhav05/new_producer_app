@@ -57,7 +57,7 @@ except:
 
 if st.sidebar.button("Clear cache"):
     st.cache_resource.clear()
-    st.experimental_rerun()
+    st.rerun()
        
 df=pd.DataFrame()
 if connection==1:
@@ -86,11 +86,11 @@ if connection==1:
             with st_lottie_spinner(lottie_animation, height=200, key=f"loading_animation_x1"):
                 placeholder_loading = st.empty()
                 Producer.send("creditcardfraud", value=df.to_dict())
-                
-                time.sleep(6)
+                placeholder_loading.text("Transaction in progress, please wait...")
+                time.sleep(10)
                 response=conn.runInstalledQuery("get_ml_prediction",params={"transactionID":transID})[0]["prediction"]
             
-                placeholder_loading.text("Transaction in progress, please wait...")
+                
                 while response != 0 and response != 1:
                     response=conn.runInstalledQuery("get_ml_prediction",params={"transactionID":transID})[0]["prediction"]
                     
