@@ -64,11 +64,11 @@ if connection==1:
     try:
         merchant=st.text_input(label="Enter Merchant Name.")
         category=st.text_input(label="Enter Product Category.")
-        cardnumber=int(st.number_input(label="Enter card number!"))
+        cardnumber=int(st.text_input(label="Enter card number!"))
         transID=st.text_input(label="Enter Transaction ID!")
         transaction_datetime=st.text_input(label=" Enter Transaction date and time.")
         location=st.text_input(label="Enter latitude and longitude")
-        amount=st.number_input(label="Enter Transaction Amount!")
+        amount=float(st.text_input(label="Enter Transaction Amount!"))
         
         if len(location)>0:
             merchant_lat=float(location.split(",")[0])
