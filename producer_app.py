@@ -74,8 +74,9 @@ if connection==1:
             merchant_lat=float(location.split(",")[0])
             merchant_long=float(location.split(",")[1])
             fraud=-2
+            ML_Production_Data=True
             data={"cc_num":cardnumber,"trans_num":transID,"category":category,"amt":amount,"merchant":merchant,"merch_lat":merchant_lat,
-                  "merch_long":merchant_long,"transaction_datetime":transaction_datetime,"merch_loc_id":location,"is_fraud":fraud}
+                  "merch_long":merchant_long,"transaction_datetime":transaction_datetime,"merch_loc_id":location,"is_fraud":fraud,"ML_Production_Data":ML_Production_Data}
             df=pd.DataFrame(data,index=[0])
     except:
         st.write("Please provide valid details!")
