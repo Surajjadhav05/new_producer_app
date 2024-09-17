@@ -50,7 +50,7 @@ st.title("Online Shopping Site")
 connection=-1
 try:
     Producer=connect_to_producer()
-    conn=setup_tg_connection()
+    #conn=setup_tg_connection()
     connection=1
 except:
     st.write("Unable to connect kafka broker!")
